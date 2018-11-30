@@ -7,15 +7,22 @@ from SelectMethod import TopCap
 from WeightMethod import CapWeight
 from PriceProcess import PriceProcess
 
+''' 
+    based on:
+        calendar rebalancing strategy,
+        SelectMethod: TopCap, 
+        WeightMethod: CapWeight
+'''
+
 # instantiate MatData:
-# cap = MatData(pd.read_csv(DATAPATH+'hist_cap.csv')) 
-# logret = MatData(pd.read_csv(DATAPATH+'hist_logret.csv'))
+cap = MatData(pd.read_csv(DATAPATH+'hist_cap.csv')) 
+logret = MatData(pd.read_csv(DATAPATH+'hist_logret.csv'))
 # ret = MatData(pd.read_csv(DATAPATH+'hist_pctchg.csv'))
-cap = MatData(pd.read_csv(DATAPATH+'mat_close.csv')) 
-logret = MatData(pd.read_csv(DATAPATH+'mat_ret.csv'))
+# cap = MatData(pd.read_csv(DATAPATH+'mat_close.csv')) 
+# logret = MatData(pd.read_csv(DATAPATH+'mat_ret.csv'))
 
 # step1: specify size N
-N = 2
+N = 10
 
 
 # step2: loop through sample period
