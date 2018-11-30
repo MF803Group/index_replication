@@ -1,5 +1,6 @@
 # set data path
-ROOTPATH = '/Users/xieyou/GitHub/index_replication/'
+import os
 
-DATAPATH = ROOTPATH + 'data/'
-RESULTPATH = ROOTPATH + 'result/'
+ROOTPATH = os.path.abspath('.')
+DATAPATH = ROOTPATH + '/data/'
+RESULTPATH = ROOTPATH + '/result/'
