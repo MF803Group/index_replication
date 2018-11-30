@@ -8,11 +8,14 @@ from WeightMethod import CapWeight
 from PriceProcess import PriceProcess
 
 # instantiate MatData:
-cap = MatData(pd.read_csv(DATAPATH+'hist_cap.csv')) 
-logret = MatData(pd.read_csv(DATAPATH+'hist_logret.csv'))
-ret = MatData(pd.read_csv(DATAPATH+'hist_pctchg.csv'))
+# cap = MatData(pd.read_csv(DATAPATH+'hist_cap.csv')) 
+# logret = MatData(pd.read_csv(DATAPATH+'hist_logret.csv'))
+# ret = MatData(pd.read_csv(DATAPATH+'hist_pctchg.csv'))
+cap = MatData(pd.read_csv(DATAPATH+'mat_close.csv')) 
+logret = MatData(pd.read_csv(DATAPATH+'mat_ret.csv'))
+
 # step1: specify size N
-N = 5
+N = 2
 
 
 # step2: loop through sample period
@@ -38,15 +41,15 @@ for i in range(WINDOW, len(logret)-DELTA, DELTA):
     temp_port_prc_proc = (
         sel_shares.values * np.exp(hold_port_ret.cumsum())
     ).agg('sum', axis=1)
-    port_prc_proc = port_prc_proc.append(temp_port_prc_proc)
+    port_prc_proc.append(temp_port_prc_proc)
 
     hold_index_ret = logret[i:i+DELTA, 0]
     temp_index_prc_proc = (
         np.exp(hold_index_ret.cumsum())
     )
-    index_prc_proc = index_prc_proc.append(temp_index_prc_proc)
+    index_prc_proc.append(temp_index_prc_proc)
     
-port_prc_proc.plot(index_prc_proc)
+port_prc_proc.plotvs(index_prc_proc)
 
 # evalutate out-of-sample period
 

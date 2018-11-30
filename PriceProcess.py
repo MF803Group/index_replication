@@ -11,21 +11,21 @@ class PriceProcess():
             extend two price process
         '''
         if len(self.s) == 0:
-            return self.s.append(s)
+            self.s = self.s.append(s)
         else:
             adj_factor = self.s[-1] / 1
             s = s * adj_factor
-            return self.s.append(s)
+            self.s = self.s.append(s)
 
-    def plot(self, s=None):
-        if s == None:
-            plt.figure()
-            self.s.plot()
-            plt.legend()
-            plt.show()
-        else:
-            plt.figure()
-            self.s.plot()
-            s.plot()
-            plt.legend()
-            plt.show()
+    def plotvs(self, s):
+        '''
+            plot port price process against 
+            index price process
+        '''
+        plt.figure()
+        self.s.name = "tracking portfolio"
+        self.s.plot()
+        s.s.name = "index"
+        s.s.plot()
+        plt.legend()
+        plt.show()
