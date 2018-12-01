@@ -1,7 +1,17 @@
 import pandas as pd 
 import matplotlib.pyplot as plt
 
-class PriceProcess():
+
+class Process():
+    '''
+        define a time series process
+    '''
+
+    def append(self, time_series):
+        raise NotImplementedError(
+            "method not defined for base class")
+
+class PriceProcess(Process):
 
     def __init__(self, s=pd.Series()):
         self.s = s
@@ -29,3 +39,11 @@ class PriceProcess():
         s.s.plot()
         plt.legend()
         plt.show()
+
+class ShareProcess(Process):
+
+    def __init__(self, df=pd.DataFrame()):
+        self.df = df 
+    
+    def append(self, df):
+        self.df = self.df.append(df)

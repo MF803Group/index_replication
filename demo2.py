@@ -44,17 +44,20 @@ for i in range(WINDOW, len(logret)-DELTA, DELTA):
     sel_shares = capweight.weight()
 
     # holding period
-    hold_port_ret = logret[i:i+DELTA][sel_ticker]
-    temp_port_prc_proc = (
-        sel_shares.values * np.exp(hold_port_ret.cumsum())
-    ).agg('sum', axis=1)
-    port_prc_proc.append(temp_port_prc_proc)
-
     hold_index_ret = logret[i:i+DELTA, 0]
     temp_index_prc_proc = (
         np.exp(hold_index_ret.cumsum())
     )
     index_prc_proc.append(temp_index_prc_proc)
+
+    hold_port_ret = logret[i:i+DELTA][sel_ticker]
+    temp_port_prc_proc = (
+        sel_shares.values * np.exp(hold_port_ret.cumsum())
+    ).agg('sum', axis=1)
+    port_prc_proc.append(temp_port_prc_proc)
+    
+
+
     
 port_prc_proc.plotvs(index_prc_proc)
 
