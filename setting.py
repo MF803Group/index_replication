@@ -2,5 +2,5 @@
 import os
 
 ROOTPATH = os.path.abspath('.')
-DATAPATH = ROOTPATH + '/data/'
-RESULTPATH = ROOTPATH + '/result/'
+DATAPATH = os.path.join(ROOTPATH,'data')
+RESULTPATH = os.path.join(ROOTPATH,'result')
