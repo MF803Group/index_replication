@@ -15,6 +15,8 @@ class MatData():
 
     def __init__(self, df):
         self.df = self.__index_setting(df)
+        print("initialzing a", len(self.df), 
+            "by", len(self.df.columns),"MatData")
 
     def __index_setting(self, df):
         ''' set Date as index'''
