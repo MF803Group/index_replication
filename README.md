@@ -4,9 +4,9 @@
 ## MatData
 class MatData(df=None)
     
-\tdefine a matrix data, index: Date(pd.DatatimeIndex), columns: Ticker(str)
+* define a matrix data, index: Date(pd.DatatimeIndex), columns: Ticker(str)
 
-parameters:
+* parameters:
     
 df: pd.Dataframe
 ```
@@ -15,20 +15,20 @@ matdata = MatData(pd.read_csv('hist_cap.csv'))
 ## Process
 class PriceProcess(s=None)
     
-    define single time series process
+* define single time series process
 
-parameters:
+* parameters:
     
-    s: pd.Series
+s: pd.Series
 
-methods:
+* methods:
     
-    append.(PriceProcess): combine two price process
+append.(PriceProcess): combine two price process
     
-    plotvs.(PriceProcess): plot one price process against another
+plotvs.(PriceProcess): plot one price process against another
     
-    trk_err_vs.(PriceProcess): return tracking error(TrakcErrProcess) 
-        of two price process
+trk_err_vs.(PriceProcess): return tracking error(TrakcErrProcess) 
+    of two price process
 
 ```
 index_prc_proc = PriceProcess()
