@@ -1,11 +1,12 @@
 import numpy as np
 import pandas as pd 
 import matplotlib.pyplot as plt
+import os
 from setting import DATAPATH
 from MatData import MatData
 from SelectMethod import TopCap
 from WeightMethod import CapWeight
-from PriceProcess import PriceProcess
+from Process import PriceProcess
 
 ''' 
     based on:
@@ -15,8 +16,8 @@ from PriceProcess import PriceProcess
 '''
 
 # instantiate MatData:
-cap = MatData(pd.read_csv(DATAPATH+'hist_cap.csv')) 
-logret = MatData(pd.read_csv(DATAPATH+'hist_logret.csv'))
+cap = MatData(pd.read_csv(os.path.join(DATAPATH,'hist_cap.csv')))
+logret = MatData(pd.read_csv(os.path.join(DATAPATH,'hist_logret.csv')))
 # ret = MatData(pd.read_csv(DATAPATH+'hist_pctchg.csv'))
 # cap = MatData(pd.read_csv(DATAPATH+'mat_close.csv')) 
 # logret = MatData(pd.read_csv(DATAPATH+'mat_ret.csv'))
