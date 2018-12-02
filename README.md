@@ -4,7 +4,7 @@
 ## MatData
 class MatData(df=None)
     
-define a matrix data, index: Date(pd.DatatimeIndex), columns: Ticker(str)
+\tdefine a matrix data, index: Date(pd.DatatimeIndex), columns: Ticker(str)
 
 parameters:
     
