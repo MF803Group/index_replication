@@ -8,7 +8,7 @@ class MatData(df=None)
 
 * parameters:
     
-df: pd.Dataframe
+    df: pd.Dataframe
 ```
 matdata = MatData(pd.read_csv('hist_cap.csv'))
 ```
