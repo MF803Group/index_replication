@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd 
 import os
-from collections import Counter
 from setting import DATAPATH
 from MatData import MatData
 
@@ -27,8 +26,6 @@ while(i < len(mat_component) and j < len(mat_logret)) :
     if mat_component.index[i] <= mat_logret.index[j] and \
         mat_component.index[i+1] >= mat_logret.index[j] :
         
-        if j == 189:
-            x = 1
         valid_list = list(mat_component.iloc[i,:].dropna().values)
         now_list = list(mat_logret.iloc[j,1:].index)
 
