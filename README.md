@@ -4,11 +4,11 @@
 ## MatData
 class MatData(df=None)
     
-    define a matrix data, index: Date(pd.DatatimeIndex), columns: Ticker(str)
+define a matrix data, index: Date(pd.DatatimeIndex), columns: Ticker(str)
 
 parameters:
     
-    df: pd.Dataframe
+df: pd.Dataframe
 ```
 matdata = MatData(pd.read_csv('hist_cap.csv'))
 ```
