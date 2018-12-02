@@ -19,16 +19,16 @@ class PriceProcess(s=None)
 
 * parameters:
     
-s: pd.Series
+    s: pd.Series
 
 * methods:
     
-append.(PriceProcess): combine two price process
+    append.(PriceProcess): combine two price process
     
-plotvs.(PriceProcess): plot one price process against another
+    plotvs.(PriceProcess): plot one price process against another
     
-trk_err_vs.(PriceProcess): return tracking error(TrakcErrProcess) 
-    of two price process
+    trk_err_vs.(PriceProcess): return tracking error(TrakcErrProcess) 
+        of two price process
 
 ```
 index_prc_proc = PriceProcess()
