@@ -1,4 +1,7 @@
-
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA as pca
 
 class SelectMethod():
     '''
@@ -47,7 +50,34 @@ class PCA(SelectMethod):
     
         self.df =df
 
-    def select(self):
-
-        pass
+    def select(self, n):
+        
+        # drop stocks that are not listed, and save stock index in a dict
+        self.df = self.df.dropna(axis=1,how='any')
+        ticker_name = self.df.columns
+        ticker_dict = {x: y for x, y in enumerate(ticker_name)}
+            
+        # construct the pca model and fit the model with data
+        sample = self.df.values
+        model = pca(n_components=n-1)
+        model.fit(sample)
+        
+        # compute PCA components and corresponding variance ratio
+        pcs = model.components_
+        pcs_mat = np.matrix(pcs)
+        var_ratio = model.explained_variance_ratio_
+        var_ratio_mat = np.matrix(var_ratio)
+        
+        # compute overall loadings for each stock
+        load_mat = var_ratio_mat*pcs_mat
+        
+        # find top 20 stocks with largest loadings
+        load_arr = np.asarray(load_mat).reshape(-1)
+        load_dict = {y: x for x, y in enumerate(load_arr)}
+        sort_load = sorted(load_arr, key=abs, reverse=True)
+        top_load = sort_load[:19]
+        ticker_num = [load_dict[x] for x in top_load]
+        selected_ticker = [ticker_dict[x] for x in ticker_num]
+        
+        return selected_ticker
     
