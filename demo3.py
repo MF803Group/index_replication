@@ -4,14 +4,14 @@ import matplotlib.pyplot as plt
 import os
 from setting import DATAPATH
 from MatData import MatData
-from SelectMethod import PCA
+from SelectMethod import TopCorr
 from WeightMethod import CapWeight
 from Process import PriceProcess
 
 ''' 
     based on:
         calendar rebalancing strategy,
-        SelectMethod: PCA, 
+        SelectMethod: TopCorr, 
         WeightMethod: CapWeight
 '''
 
@@ -39,9 +39,9 @@ for i in range(WINDOW, len(logret)-DELTA, DELTA):
 
     # decision period
     dec_cap = cap[i-1:i, 1:]
-    dec_logret = logret[i-WINDOW:i, 1:]
-    pca = PCA(dec_logret)
-    sel_ticker = pca.select(n=10)
+    dec_logret = logret[i-WINDOW:i,:]
+    topcorr = TopCorr(dec_logret)
+    sel_ticker = topcorr.select(n=10)
     capweight = CapWeight(dec_cap[sel_ticker])
     sel_shares = capweight.weight()
 
