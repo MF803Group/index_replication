@@ -63,7 +63,24 @@ class TopCap(df=None)
 
 * methods:
     
-    select.(pd.Index): output selected tickers
+    select.(): output selected tickers (pd.Index)
+```
+topcap = TopCap()
+```
+class PCA(df=None)
+
+* define a method of selecting n components by Principle Component Analysis(PCA)
+
+* parameters:
+    
+    df: pd.DataFrame
+
+* methods:
+    
+    select.(): output selected tickers (pd.Index)
+```
+pca = PCA()
+```
 
 ## WeightMethod
 class CapWeight(df=None)
@@ -76,4 +93,7 @@ class CapWeight(df=None)
 
 * methods:
     
-    weight.(WeightProcess): output weights of tickers
+    weight.(): output weights of tickers (WeightProcess)
+```
+capweight = CapWeight()
+```
