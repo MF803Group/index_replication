@@ -31,8 +31,49 @@ class PriceProcess(s=None)
         of two price process
 
 ```
-index_prc_proc = PriceProcess()
-index_prc_proc.append(temp_index_prc_proc)
-port_prc_proc.plotvs(index_prc_proc)
-port_prc_proc.trk_err_vs(index_prc_proc)
+one_process = PriceProcess()
+
+one_process.append(other_process)
+
+one_process.plotvs(index_process)
+
+one_process.trk_err_vs(index_process)
 ```
+## MultiProcess
+class WeightProcess(df=None)
+    
+* define multiple time series process
+
+* parameters:
+    
+    df: pd.DataFrame
+
+* methods:
+    
+    append.(WeightProcess): combine two weight process
+
+## SelectMethod
+class TopCap(df=None)
+    
+* define a method of selecting n components of top capitalization
+
+* parameters:
+    
+    df: pd.DataFrame
+
+* methods:
+    
+    select.(pd.Index): output selected tickers
+
+## WeightMethod
+class CapWeight(df=None)
+    
+* define a method of weighting components by their capitalization
+
+* parameters:
+    
+    df: pd.DataFrame
+
+* methods:
+    
+    weight.(WeightProcess): output weights of tickers
