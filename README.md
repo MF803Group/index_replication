@@ -31,11 +31,7 @@ class Process():
 
 class PriceProcess(Process)
     
-* define single time series process
-
-* parameters:
-    
-    s: pd.Series
+* define price process
 
 * methods:
     
@@ -43,8 +39,12 @@ class PriceProcess(Process)
     
     plotvs.(PriceProcess): plot one price process against another
     
-    trk_err_vs.(PriceProcess): return tracking error(TrakcErrProcess) 
+    trk_err_vs.(PriceProcess): return tracking error(TrkErrProcess) 
         of two price process
+
+class TrkErrProcess(Process)
+
+* define track error process
 
 ```
 one_process = PriceProcess()
