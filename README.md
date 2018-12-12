@@ -1,6 +1,7 @@
 # Documentation
 
 # Class
+
 ## MatData
 class MatData(df=None)
     
@@ -9,17 +10,28 @@ class MatData(df=None)
 * parameters:
     
     df: pd.Dataframe
+
+* method:
+    
+    index_setting.(): set Date as index
 ```
 matdata = MatData(pd.read_csv('hist_cap.csv'))
+
+matdata.index_setting.()
 ```
+
 ## Process
-class PriceProcess(s=None)
-    
-* define single time series process
+class Process():
+
+* define a time series process
 
 * parameters:
-    
+
     s: pd.Series
+
+class PriceProcess(Process)
+    
+* define price process
 
 * methods:
     
@@ -27,8 +39,12 @@ class PriceProcess(s=None)
     
     plotvs.(PriceProcess): plot one price process against another
     
-    trk_err_vs.(PriceProcess): return tracking error(TrakcErrProcess) 
+    trk_err_vs.(PriceProcess): return tracking error(TrkErrProcess) 
         of two price process
+
+class TrkErrProcess(Process)
+
+* define track error process
 
 ```
 one_process = PriceProcess()
@@ -39,8 +55,18 @@ one_process.plotvs(index_process)
 
 one_process.trk_err_vs(index_process)
 ```
+
 ## MultiProcess
-class WeightProcess(df=None)
+
+class MultiProcess():
+
+* define multi time series process
+
+* parameters:
+    
+    df: pd.DataFrame
+
+class WeightProcess(MultiProcess)
     
 * define multiple time series process
 
@@ -53,47 +79,82 @@ class WeightProcess(df=None)
     append.(WeightProcess): combine two weight process
 
 ## SelectMethod
-class TopCap(df=None)
+class SelectMethod()
+
+* define a selecting method
+
+* parameters:
+
+    matdata: MatData
+
+* methods:
+    
+    select.(): return selected tickers (pd.Index)
+    
+class TopCap(SelectMethod)
     
 * define a method of selecting n components of top capitalization
 
-* parameters:
-    
-    df: pd.DataFrame
+class TopCorr(SelectMethod):
 
-* methods:
-    
-    select.(): output selected tickers (pd.Index)
+* define a method of selecting based on correlation w.r.t index
+
+class PCA(SelectMethod)
+
+* define a method of selecting by using Principle Component Analysis
+
 ```
-topcap = TopCap()
-```
-class PCA(df=None)
+from SelectMethod import PCA
 
-* define a method of selecting n components by Principle Component Analysis(PCA)
+pca = PCA(matdata)
 
-* parameters:
-    
-    df: pd.DataFrame
-
-* methods:
-    
-    select.(): output selected tickers (pd.Index)
-```
-pca = PCA()
+selected_ticker = pca.select()
 ```
 
 ## WeightMethod
-class CapWeight(df=None)
-    
-* define a method of weighting components by their capitalization
+
+class WeightMethod():
+
+* define a weighting method
 
 * parameters:
     
-    df: pd.DataFrame
-
+    matdata: MatData
+    
 * methods:
     
-    weight.(): output weights of tickers (WeightProcess)
+    weight.(): return weights of tickers (WeightProcess)
+
+class CapWeight(WeightMethod)
+    
+* define a method of weighting components by their capitalization
+
+class OptWeight(WeightMethod)
+
+* define a method of weighting by solving optimization problem
+
+
 ```
-capweight = CapWeight()
+from WeightMethod import OptWeight
+
+capweight = CapWeight(matdata)
+
+ticker_weights = capweight.weight()
 ```
+
+## Strategy
+
+class Strategy():
+
+* define a rebalancing strategy
+
+class CalendarReb(Strategy):
+
+* define a calendar rebalancing strategy
+
+class TrkErrReb(Strategy):
+
+* define a threshold rebalancing strategy using tracking error
+
+
+
