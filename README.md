@@ -1,6 +1,7 @@
 # Documentation
 
 # Class
+
 ## MatData
 class MatData(df=None)
     
@@ -18,6 +19,7 @@ matdata = MatData(pd.read_csv('hist_cap.csv'))
 
 matdata.index_setting.()
 ```
+
 ## Process
 class Process():
 
@@ -53,6 +55,7 @@ one_process.plotvs(index_process)
 
 one_process.trk_err_vs(index_process)
 ```
+
 ## MultiProcess
 
 class MultiProcess():
@@ -138,3 +141,20 @@ capweight = CapWeight(matdata)
 
 ticker_weights = capweight.weight()
 ```
+
+## Strategy
+
+class Strategy():
+
+* define a rebalancing strategy
+
+class CalendarReb(Strategy):
+
+* define a calendar rebalancing strategy
+
+class TrkErrReb(Strategy):
+
+* define a threshold rebalancing strategy using tracking error
+
+
+
