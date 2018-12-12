@@ -53,47 +53,65 @@ class WeightProcess(df=None)
     append.(WeightProcess): combine two weight process
 
 ## SelectMethod
-class TopCap(df=None)
+class SelectMethod()
+
+* define a selecting method
+
+* parameters:
+
+    matdata: MatData
+
+* methods:
+    
+    select.(): return selected tickers (pd.Index)
+    
+class TopCap(SelectMethod)
     
 * define a method of selecting n components of top capitalization
 
-* parameters:
-    
-    df: pd.DataFrame
+class TopCorr(SelectMethod):
 
-* methods:
-    
-    select.(): output selected tickers (pd.Index)
+* define a method of selecting based on correlation w.r.t index
+
+class PCA(SelectMethod)
+
+* define a method of selecting by using Principle Component Analysis
+
 ```
-topcap = TopCap()
-```
-class PCA(df=None)
+from SelectMethod import PCA
 
-* define a method of selecting n components by Principle Component Analysis(PCA)
+pca = PCA(matdata)
 
-* parameters:
-    
-    df: pd.DataFrame
-
-* methods:
-    
-    select.(): output selected tickers (pd.Index)
-```
-pca = PCA()
+selected_ticker = pca.select()
 ```
 
 ## WeightMethod
-class CapWeight(df=None)
-    
-* define a method of weighting components by their capitalization
+
+class WeightMethod():
+
+* define a weighting method
 
 * parameters:
     
-    df: pd.DataFrame
-
+    matdata: MatData
+    
 * methods:
     
-    weight.(): output weights of tickers (WeightProcess)
+    weight.(): return weights of tickers (WeightProcess)
+
+class CapWeight(WeightMethod)
+    
+* define a method of weighting components by their capitalization
+
+Class OptWeight(WeightMethod)
+
+* define a method of weighting by solving optimization problem
+
+
 ```
-capweight = CapWeight()
+from WeightMethod import OptWeight
+
+capweight = CapWeight(matdata)
+
+ticker_weights = capweight.weight()
 ```
