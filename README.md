@@ -9,11 +9,25 @@ class MatData(df=None)
 * parameters:
     
     df: pd.Dataframe
+
+* method:
+    
+    index_setting.(): set Date as index
 ```
 matdata = MatData(pd.read_csv('hist_cap.csv'))
+
+matdata.index_setting.()
 ```
 ## Process
-class PriceProcess(s=None)
+class Process():
+
+* define a time series process
+
+* parameters:
+
+    s: pd.Series
+
+class PriceProcess(Process)
     
 * define single time series process
 
@@ -40,7 +54,16 @@ one_process.plotvs(index_process)
 one_process.trk_err_vs(index_process)
 ```
 ## MultiProcess
-class WeightProcess(df=None)
+
+class MultiProcess():
+
+* define multi time series process
+
+* parameters:
+    
+    df: pd.DataFrame
+
+class WeightProcess(MultiProcess)
     
 * define multiple time series process
 
@@ -103,7 +126,7 @@ class CapWeight(WeightMethod)
     
 * define a method of weighting components by their capitalization
 
-Class OptWeight(WeightMethod)
+class OptWeight(WeightMethod)
 
 * define a method of weighting by solving optimization problem
 
