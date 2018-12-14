@@ -65,11 +65,7 @@ class OptWeight(WeightMethod):
             pool_proc: pool price process
             index_proc: index price process
         '''
-        if len(pool_proc) != len(index_proc):
-            raise ValueError("length of fisrt process:",len(pool_proc),
-                "!= length of second process:", len(index_proc))
         port_proc = (pool_proc * w).apply(sum, axis=1)
-
         new_wgt = WeightProcess(date=self.lastdate, ticker=self.ticker, weight=w)
         old_wgt = self.wgtproc[-1]
         transcost = new_wgt.get_delta(old_wgt) * self.trans_ratio
