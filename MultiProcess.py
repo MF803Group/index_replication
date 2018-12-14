@@ -45,7 +45,7 @@ class WeightProcess(MultiProcess):
         return len(self.df)
 
     def append(self, other):
-        self.df = self.df.append(other.df)
+        self.df = self.df.append(other.df, sort=False)
 
     def get_delta(self, other):
         if self.is_empty() and other.is_empty():

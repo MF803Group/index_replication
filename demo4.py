@@ -8,10 +8,10 @@ from SelectMethod import PCA, TopCap, TopCorr
 from WeightMethod import OptWeight
 from Process import PriceProcess
 from MultiProcess import WeightProcess
-
+from TrkErrMeasure import ETQ
 ''' 
     based on:
-        calendar rebalancing strategy,
+        threshold rebalancing strategy,
         SelectMethod: TopCap / TopCorr / PCA
         WeightMethod: OptWeight
 '''
@@ -30,17 +30,17 @@ N = 10
 
 # step2: loop through sample period
 # implement selecting and weighting method
-# ex.calendar rebalancing
-DELTA = 30
+
 WINDOW = 360
+THRESHOLD = 0.02
 # begin after WINDOW
-# end before T - DELTA
 port_wgt_proc = WeightProcess()
 port_prc_proc = PriceProcess()
 index_prc_proc = PriceProcess()
 
-for i in range(WINDOW, len(logret)-DELTA, DELTA):
+i = WINDOW
 
+while(i < len(logret)):
     date = logret.index[i]
     print(date)
     # -----  decision period ----- #
@@ -72,18 +72,27 @@ for i in range(WINDOW, len(logret)-DELTA, DELTA):
     temp_port_wgt_proc = WeightProcess(date, sel_ticker, sel_weight)
     port_wgt_proc.append(temp_port_wgt_proc)
     
-    # ----- holding period ----- #
-    hold_index_ret = logret[i:i+DELTA, 0]
-    temp_index_prc_proc = (
-        np.exp(hold_index_ret.cumsum())
-    )
-    index_prc_proc.append(temp_index_prc_proc)
+    temp_index_prc_proc = PriceProcess()
+    temp_port_prc_proc = PriceProcess()
+    trk_err = 0.0
+    while(trk_err <= THRESHOLD and i < len(logret)):
 
-    hold_port_ret = logret[i:i+DELTA][sel_ticker]
-    temp_port_prc_proc = (
-        sel_weight * np.exp(hold_port_ret.cumsum())
-    ).agg('sum', axis=1)
-    port_prc_proc.append(temp_port_prc_proc)
+        # ----- holding period ----- #
+        step_index_ret = logret[i:i+1, 0]
+        temp_index_prc_proc.append(np.exp(step_index_ret))
+
+        step_port_ret = logret[i:i+1][sel_ticker]
+        temp_port_prc_proc.append((
+            sel_weight * np.exp(step_port_ret)
+        ).agg('sum', axis=1))
+
+        trk_err = ETQ(temp_index_prc_proc.s, temp_port_prc_proc.s)
+        print(trk_err)
+        i += 1
+    
+    index_prc_proc.append(temp_index_prc_proc.s)
+    port_prc_proc.append(temp_port_prc_proc.s)
+
     
 
 

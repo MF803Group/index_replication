@@ -33,6 +33,9 @@ class PriceProcess(Process):
             len(self.s.index) != len(prcproc.s.index):
             raise ValueError(self.s.index,"!=",prcproc.s.index)
 
+    def __len__(self):
+        return len(self.s)
+        
     def plotvs(self, prcproc, col=["grey", "black"],lgd_loc="upper left"):
         '''
             plot port price process against 
