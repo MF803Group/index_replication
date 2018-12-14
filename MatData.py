@@ -15,6 +15,7 @@ class MatData():
 
     def __init__(self, df):
         self.df = self.index_setting(df)
+        self.index = self.df.index
         print("initialzing a", len(self.df), 
             "by", len(self.df.columns),"MatData")
 
