@@ -17,7 +17,8 @@ calreb = CalendarRebalance(n=10, select='TopCap', weight='OptWeight')
 
 # specify step length (defalut:30)
 # specify decision window length (defalut:360)
-calreb.setting(step=60, window=360)
+# specify transaction cost ratio 
+calreb.setting(step=60, window=360, trans_ratio=0.0)
 
 # feed data to strategy
 calreb.feed(logret=logret, cap=cap)

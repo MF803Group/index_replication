@@ -24,9 +24,10 @@ class CalendarRebalance(Strategy):
         self.weight = weight
         self.setting(30, 360)
 
-    def setting(self, step, window):
+    def setting(self, step, window, trans_ratio=0.0):
         self.step = step
         self.window = window
+        self.trans_ratio = trans_ratio
     
     def feed(self, *argv, **kwargs):
         if kwargs is not None:
@@ -91,7 +92,8 @@ class CalendarRebalance(Strategy):
                 optweight = OptWeight(
                     dec_pool_logret, 
                     dec_index_logret, 
-                    self.port_wgt_proc
+                    self.port_wgt_proc,
+                    self.trans_ratio
                 )
                 sel_weight = optweight.weight()
 
