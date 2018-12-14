@@ -4,9 +4,11 @@ from SelectMethod import TopCap, TopCorr, PCA
 from WeightMethod import CapWeight, OptWeight
 from Process import PriceProcess
 from MultiProcess import WeightProcess
+from TrkErrMeasure import available_measure_kind
 
 available_select_method = ['TopCap', 'TopCorr', 'PCA']
 available_weight_method = ['CapWeight', 'OptWeight']
+
 
 class Strategy():
 
@@ -22,11 +24,12 @@ class CalendarRebalance(Strategy):
         self.n = n
         self.select = select
         self.weight = weight
-        self.setting(30, 360)
+        self.setting(30, 360, 'ETQ', 0.0)
 
-    def setting(self, step, window, trans_ratio=0.0):
+    def setting(self, step, window, measure_kind, trans_ratio):
         self.step = step
         self.window = window
+        self.measure_kind = measure_kind
         self.trans_ratio = trans_ratio
     
     def feed(self, *argv, **kwargs):
@@ -51,6 +54,7 @@ class CalendarRebalance(Strategy):
             raise TypeError("select method", self.select, "not supported")
         if self.weight not in available_weight_method:
             raise TypeError("weight method", self.weight, "not supported")
+        
 
     def run(self, printer=True):
         self.__check_data()
@@ -80,8 +84,9 @@ class CalendarRebalance(Strategy):
             elif self.select == 'PCA': 
                 pca = PCA(dec_logret)
                 sel_ticker = pca.select(n=self.n)
-
-            print(sel_ticker)
+            
+            if printer == True:
+                print(sel_ticker)
             dec_pool_logret = dec_logret[sel_ticker]
             
             # weight
@@ -93,10 +98,12 @@ class CalendarRebalance(Strategy):
                     dec_pool_logret, 
                     dec_index_logret, 
                     self.port_wgt_proc,
+                    self.measure_kind,
                     self.trans_ratio
                 )
                 sel_weight = optweight.weight()
-
+            if printer == True:
+                print(sel_weight)
             temp_port_wgt_proc = WeightProcess(date, sel_ticker, sel_weight)
             self.port_wgt_proc.append(temp_port_wgt_proc)
             

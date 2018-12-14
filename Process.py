@@ -35,7 +35,7 @@ class PriceProcess(Process):
 
     def __len__(self):
         return len(self.s)
-        
+
     def plotvs(self, prcproc, col=["grey", "black"],lgd_loc="upper left"):
         '''
             plot port price process against 
