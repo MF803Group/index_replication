@@ -48,12 +48,12 @@ for i in range(WINDOW, len(logret)-DELTA, DELTA):
     dec_logret = logret[i-WINDOW:i,:]
     dec_index_logret = logret[i-WINDOW:i,0]
 
-    dec_cap = cap[i-WINDOW:i, 1:]
-    topcap = TopCap(dec_cap, N)
-    sel_ticker = topcap.select()
-    # pca = PCA(dec_logret)
-    # sel_ticker = pca.select(n=10)
-    # dec_pool_logret = dec_logret[sel_ticker]
+    # dec_cap = cap[i-WINDOW:i, 1:]
+    # topcap = TopCap(dec_cap, N)
+    # sel_ticker = topcap.select()
+    pca = PCA(dec_logret)
+    sel_ticker = pca.select(n=N)
+
     dec_pool_logret = dec_logret[sel_ticker]
     # weight
     optweight = OptWeight(

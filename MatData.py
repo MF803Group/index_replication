@@ -31,17 +31,6 @@ class MatData():
         else:
             raise NameError("No columns named Date")
 
-    # def __index_setting(self, df):
-    #     ''' set Date as index'''
-    #     if type(df.index) == pd.DatetimeIndex:
-    #         return df
-    #     elif 'Date' in df.columns:
-    #         df['Date'] = pd.to_datetime(
-    #             df['Date'].astype(str))
-    #         return df.set_index('Date')
-    #     else:
-    #         raise NameError("No columns named Date")
-
     def __len__(self):
         return len(self.df)
     

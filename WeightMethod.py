@@ -47,7 +47,7 @@ class OptWeight(WeightMethod):
             wgtproc: weight process dating up to now
             transcost: tranaction cost due to weight changes
     '''
-    def __init__(self, pool, index, wgtproc, trans_ratio=0.0001):
+    def __init__(self, pool, index, wgtproc, trans_ratio=0.0):
 
         self.pool = pool
         self.index = index

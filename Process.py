@@ -50,19 +50,5 @@ class PriceProcess(Process):
         fig1.set_xlabel(start_date + "~" + end_date)
         fig1.set_xticks([])
         plt.show()
-    
-    def trk_err_vs(self, prcproc, kind='ETQ'):
-        '''
-            calculate tracking error against 
-            index price process
-            output: tracking error process
-        '''
-        self.__check_len(prcproc)
-        if kind == 'ETQ':
-            s = pd.Series(data=np.abs(self.s - prcproc.s), index=self.s.index)
-            return TrackErrProcess(s)
 
-class TrackErrProcess(Process):
-    def __init__(self, s=pd.Series()):
-        self.s = s 
 
