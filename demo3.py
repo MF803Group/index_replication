@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import os
 from setting import DATAPATH
 from MatData import MatData
-from SelectMethod import PCA, TopCap
+from SelectMethod import PCA, TopCap, TopCorr
 from WeightMethod import OptWeight
 from Process import PriceProcess
 from MultiProcess import WeightProcess
@@ -51,9 +51,14 @@ for i in range(WINDOW, len(logret)-DELTA, DELTA):
     # dec_cap = cap[i-WINDOW:i, 1:]
     # topcap = TopCap(dec_cap, N)
     # sel_ticker = topcap.select()
-    pca = PCA(dec_logret)
-    sel_ticker = pca.select(n=N)
 
+    # pca = PCA(dec_logret)
+    # sel_ticker = pca.select(n=N)
+
+    topcorr = TopCorr(dec_logret)
+    sel_ticker = topcorr.select(n=N)
+    
+    print(sel_ticker)
     dec_pool_logret = dec_logret[sel_ticker]
     # weight
     optweight = OptWeight(
