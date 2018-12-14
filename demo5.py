@@ -12,7 +12,7 @@ cap = MatData(pd.read_csv(os.path.join(DATAPATH,'mat_cap.csv')))
 # choose size n
 # select method: TopCap / TopCorr / PCA
 # weight method: CapWeight / OptWeight
-# strategy: ThresholdRebalance
+# strategy: CalendarRebalance / ThresholdRebalance
 calreb = CalendarRebalance(n=10, select='TopCap', weight='OptWeight')
 
 # specify step length (defalut:30)
