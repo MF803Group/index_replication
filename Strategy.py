@@ -73,7 +73,7 @@ class CalendarRebalance(Strategy):
             dec_index_logret = self.logret[i-self.window:i,0]
 
             if self.select == 'TopCap':
-                dec_cap = self.cap[i-1:i,:]
+                dec_cap = self.cap[i-self.window:i,:]
                 topcap = TopCap(dec_cap, self.n)
                 sel_ticker = topcap.select()
             elif self.select == 'TopCorr':

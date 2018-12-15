@@ -27,7 +27,7 @@ thresreb.feed(logret=logret, cap=cap)
 # run strategy
 thresreb.run(printer=True)
 
-# TODO:evalutate
+# evalutate
 thresreb.evalute(printer=True)
 
 

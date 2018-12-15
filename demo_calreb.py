@@ -12,13 +12,13 @@ cap = MatData(pd.read_csv(os.path.join(DATAPATH,'mat_cap.csv')))
 # choose size n
 # select method: TopCap / TopCorr / PCA
 # weight method: CapWeight / OptWeight
-calreb = CalendarRebalance(n=10, select='TopCorr', weight='OptWeight')
+calreb = CalendarRebalance(n=10, select='TopCap', weight='OptWeight')
 
 # specify step length (defalut:30)
 # specify decision window length (defalut:360)
 # specify measure kind (defalut:ETQ)
 # specify transaction cost ratio (defalut:0.0)
-calreb.setting(step=60, window=360, measure_kind='ETQ', trans_ratio=0.005)
+calreb.setting(step=20, window=252, measure_kind='ETQ', trans_ratio=0.0002)
 
 # feed data to strategy
 calreb.feed(logret=logret, cap=cap)
@@ -26,7 +26,7 @@ calreb.feed(logret=logret, cap=cap)
 # run strategy
 calreb.run(printer=True)
 
-# TODO:evalutate
+# evalutate 
 calreb.evalute()
 
 
