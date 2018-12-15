@@ -33,7 +33,8 @@ class CapWeight(WeightMethod):
         self.df = df 
     
     def weight(self):
-        return self.df / np.sum(self.df.values)
+        last_cap = self.df.iloc[-1,:]
+        return (last_cap / np.sum(last_cap.values)).values
 
 
 class OptWeight(WeightMethod):

@@ -71,9 +71,9 @@ class CalendarRebalance(Strategy):
 
             dec_logret = self.logret[i-self.window:i,:]
             dec_index_logret = self.logret[i-self.window:i,0]
+            dec_cap = self.cap[i-self.window:i,:]
 
             if self.select == 'TopCap':
-                dec_cap = self.cap[i-self.window:i,:]
                 topcap = TopCap(dec_cap, self.n)
                 sel_ticker = topcap.select()
             elif self.select == 'TopCorr':
@@ -191,16 +191,14 @@ class ThresholdRebalance(Strategy):
             date = self.logret.index[i]
             if printer == True: 
                 print("Rebalancing ", str(date)[:10])
-            if str(date)[:10] == '2012-09-10':
-                x = 1
             # -----  decision period ----- #
             # select
 
             dec_logret = self.logret[i-self.window:i,:]
             dec_index_logret = self.logret[i-self.window:i,0]
+            dec_cap = self.cap[i-self.window:i,:]
 
             if self.select == 'TopCap':
-                dec_cap = self.cap[i-self.window:i,:]
                 topcap = TopCap(dec_cap, self.n)
                 sel_ticker = topcap.select()
             elif self.select == 'TopCap':
