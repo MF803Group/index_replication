@@ -1,5 +1,8 @@
 # Documentation
-
+# demo1: calendar rebalancing 
+run demo_calreb.py!
+# demo2: threshold reblancing
+run demo_thresreb.py!
 # Class
 
 ## MatData
