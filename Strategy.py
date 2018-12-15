@@ -191,7 +191,8 @@ class ThresholdRebalance(Strategy):
             date = self.logret.index[i]
             if printer == True: 
                 print("Rebalancing ", str(date)[:10])
-            
+            if str(date)[:10] == '2012-09-10':
+                x = 1
             # -----  decision period ----- #
             # select
 
@@ -246,9 +247,7 @@ class ThresholdRebalance(Strategy):
                 temp_index_prc_proc.append(np.exp(step_index_ret))
 
                 step_port_ret = self.logret[i:i+1][sel_ticker]
-                temp_port_prc_proc.append((
-                    sel_weight * np.exp(step_port_ret)
-                ).agg('sum', axis=1))
+                temp_port_prc_proc.append((sel_weight * np.exp(step_port_ret)).agg('sum', axis=1))
 
                 if self.measure_kind == 'ETQ':
                     trk_err = ETQ(temp_index_prc_proc.s, temp_port_prc_proc.s, kind="price")

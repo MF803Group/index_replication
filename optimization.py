@@ -17,6 +17,7 @@ cap = MatData(pd.read_csv(os.path.join(DATAPATH,'mat_cap.csv')))
 # in sample period: 2010/01 - 2016/12
 # out of sample period: 2017/01 - 2017/12
 logret_in = MatData(logret[:1761,:])
+cap_in = MatData(cap[:1761,:])
 logret_out = MatData(logret[1762:,:])
 
 # optimize calreb
@@ -28,8 +29,8 @@ for selectmethod in available_select_method:
         for windowlength in window_range:
             print(selectmethod, steplength, windowlength)
             calreb.setting(step=steplength, window=windowlength, measure_kind='ETQ', trans_ratio=0.0002)
-            calreb.feed(logret=logret_in, cap=cap)
-            calreb.run(printer=True)
+            calreb.feed(logret=logret_in, cap=cap_in)
+            calreb.run(printer=False)
             trk_err = calreb.evalute(printer=False)
             string = "_".join([str(selectmethod), str(steplength), str(windowlength)])
             res[string] = trk_err

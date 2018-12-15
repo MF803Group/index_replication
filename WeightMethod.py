@@ -83,11 +83,13 @@ class OptWeight(WeightMethod):
 
     def weight(self):
 
-        w0 = np.array([0.1]*10)
-        w_constraint = ({'type': 'eq', 'fun': lambda w: sum(w) - 1.})
+        n = self.pool.shape[1]
+        w0 = np.array([0.1]*n)
+        w_bound = [(0,1) for i in range(n)]
+        w_constraint = ({'type': 'eq', 'fun': lambda w: sum(w) - 1.0})
         res = minimize(self.measure_func, w0, 
             args=(self.pool,self.index,self.measure_kind),
-            constraints=w_constraint)
+            constraints=w_constraint, bounds=w_bound)
 
         return res.x
     
