@@ -42,7 +42,7 @@ class OptWeight(WeightMethod):
         weighting components by minimizing track error
 
         parameters:
-            port: optimizing window of portfolio logret
+            pool: optimizing window of pool logret
             index: optimizing window of index logret, 
             wgtproc: weight process dating up to now
             transcost: tranaction cost due to weight changes

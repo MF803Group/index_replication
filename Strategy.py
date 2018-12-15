@@ -16,8 +16,6 @@ class Strategy():
         raise NotImplementedError(
             "Method not defined from base class")
 
-    pass
-
 class CalendarRebalance(Strategy):
 
     def __init__(self, n, select, weight):
@@ -75,10 +73,10 @@ class CalendarRebalance(Strategy):
             dec_index_logret = self.logret[i-self.window:i,0]
 
             if self.select == 'TopCap':
-                dec_cap = self.cap[i-self.window:i, 1:]
+                dec_cap = self.cap[i-1:i,:]
                 topcap = TopCap(dec_cap, self.n)
                 sel_ticker = topcap.select()
-            elif self.select == 'TopCap':
+            elif self.select == 'TopCorr':
                 topcorr = TopCorr(dec_logret)
                 sel_ticker = topcorr.select(n=self.n)
             elif self.select == 'PCA': 
@@ -104,7 +102,9 @@ class CalendarRebalance(Strategy):
                 sel_weight = optweight.weight()
             if printer == True:
                 print("Selected Weight", np.round(sel_weight,4))
+            
             temp_port_wgt_proc = WeightProcess(date, sel_ticker, sel_weight)
+            transcost = temp_port_wgt_proc.get_delta(self.port_wgt_proc) * self.trans_ratio
             self.port_wgt_proc.append(temp_port_wgt_proc)
             
             # ----- holding period ----- #
@@ -119,12 +119,25 @@ class CalendarRebalance(Strategy):
                 sel_weight * np.exp(hold_port_ret.cumsum())
             ).agg('sum', axis=1)
             self.port_prc_proc.append(temp_port_prc_proc)
+            
+            self.port_prc_proc.s[-1] = self.port_prc_proc.s[-1] - transcost
+
+        pass
+
+    def evalute(self,printer=True):
+
+        # total track error
+        if self.measure_kind == "ETQ":
+            trk_err = ETQ(self.port_prc_proc.s, self.index_prc_proc.s, kind='price')
+        elif self.measure_kind == "MAD":
+            trk_err = MAD(self.port_prc_proc.s, self.index_prc_proc.s, kind='price')
+
+        # plot
+        if printer == True:
+            print("total track error:", trk_err)
+            self.port_prc_proc.plotvs(self.index_prc_proc)
         
-        pass
-
-    def evalute(self):
-
-        pass
+        return trk_err
 
 class ThresholdRebalance(Strategy):
 
@@ -186,7 +199,7 @@ class ThresholdRebalance(Strategy):
             dec_index_logret = self.logret[i-self.window:i,0]
 
             if self.select == 'TopCap':
-                dec_cap = self.cap[i-self.window:i, 1:]
+                dec_cap = self.cap[i-self.window:i,:]
                 topcap = TopCap(dec_cap, self.n)
                 sel_ticker = topcap.select()
             elif self.select == 'TopCap':
@@ -215,9 +228,12 @@ class ThresholdRebalance(Strategy):
                 sel_weight = optweight.weight()
             if printer == True:
                 print("Selected Weight", np.round(sel_weight,4))
-            temp_port_wgt_proc = WeightProcess(date, sel_ticker, sel_weight)
-            self.port_wgt_proc.append(temp_port_wgt_proc)
             
+            
+            temp_port_wgt_proc = WeightProcess(date, sel_ticker, sel_weight)
+            transcost = temp_port_wgt_proc.get_delta(self.port_wgt_proc) * self.trans_ratio
+            self.port_wgt_proc.append(temp_port_wgt_proc)
+
             temp_index_prc_proc = PriceProcess()
             temp_port_prc_proc = PriceProcess()
             
@@ -235,19 +251,32 @@ class ThresholdRebalance(Strategy):
                 ).agg('sum', axis=1))
 
                 if self.measure_kind == 'ETQ':
-                    trk_err = ETQ(temp_index_prc_proc.s, temp_port_prc_proc.s)
+                    trk_err = ETQ(temp_index_prc_proc.s, temp_port_prc_proc.s, kind="price")
                 elif self.measure_kind == 'MAD':
-                    trk_err = MAD(temp_index_prc_proc.s, temp_port_prc_proc.s)
+                    trk_err = MAD(temp_index_prc_proc.s, temp_port_prc_proc.s, kind="price")
 
                 if printer == True:
                     print(str(date)[:10], "track error:" ,np.round(trk_err,4))
                 i += 1
-       
-        self.index_prc_proc.append(temp_index_prc_proc.s)
-        self.port_prc_proc.append(temp_port_prc_proc.s)
 
-    def evalute(self):
+            self.index_prc_proc.append(temp_index_prc_proc.s)
+            self.port_prc_proc.append(temp_port_prc_proc.s)
+            self.port_prc_proc.s[-1] = self.port_prc_proc.s[-1] - transcost
 
-        pass
+
+    def evalute(self,printer=True):
+
+        # total track error
+        if self.measure_kind == "ETQ":
+            trk_err = ETQ(self.port_prc_proc.s, self.index_prc_proc.s, kind='price')
+        elif self.measure_kind == "MAD":
+            trk_err = MAD(self.port_prc_proc.s, self.index_prc_proc.s, kind='price')
+
+        # plot
+        if printer == True:
+            print("total track error:", trk_err)
+            self.port_prc_proc.plotvs(self.index_prc_proc)
+        
+        return trk_err
     pass
 

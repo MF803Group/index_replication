@@ -28,30 +28,28 @@ class PriceProcess(Process):
             s = s * adj_factor
             self.s = self.s.append(s)
     
-    def __check_len(self, prcproc):
-        if (self.s.index != prcproc.s.index).any() or \
-            len(self.s.index) != len(prcproc.s.index):
-            raise ValueError(self.s.index,"!=",prcproc.s.index)
+    def __check_len(self, other):
+        if (self.s.index != other.s.index).any() or \
+            len(self.s.index) != len(other.s.index):
+            raise ValueError(self.s.index,"!=",other.s.index)
 
     def __len__(self):
         return len(self.s)
 
-    def plotvs(self, prcproc, col=["grey", "black"],lgd_loc="upper left"):
+    def plotvs(self, other, label=["portfolio", "index"], 
+        kind=["line", "line"], color=["blue", "orange"]):
         '''
-            plot port price process against 
-            index price process
+            plot one price process against other process
         '''
-        self.__check_len(prcproc)
-        fig = plt.figure()
-        fig1 = fig.add_subplot(1,1,1)
-        fig1.plot(self.s.index, self.s, color=col[0], label="index")
-        fig1.plot(self.s.index, prcproc.s, color=col[1], label="portfolio")
-        plt.legend(loc=lgd_loc)
-        fig1.set_title("tracking portfolio vs index")
-        start_date = str(self.s.index[0].year) + str(self.s.index[0].month)
-        end_date = str(self.s.index[-1].year) + str(self.s.index[-1].month)
-        fig1.set_xlabel(start_date + "~" + end_date)
-        fig1.set_xticks([])
+        self.__check_len(other)
+
+        plt.figure()
+        self.s.plot(label=label[0], kind=kind[0], color=color[0])
+        other.s.plot(label=label[1], kind=kind[1], color=color[1])
+        plt.legend()
+        plt.xlabel("Date")
+        plt.ylabel("Net Value")
+        plt.title("Tracking Performance")
         plt.show()
 
 

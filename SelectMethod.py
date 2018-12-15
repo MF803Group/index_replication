@@ -34,9 +34,9 @@ class TopCap(SelectMethod):
         self.n = n 
     
     def select(self):
-        sort_pool = self.df.sort_values(
-            by=self.df.index[0], axis=1, ascending=False)
-        return sort_pool.columns[:self.n]
+        avg_cap = self.df.dropna(axis=1,how='any').agg("mean",axis=0)
+        sort_pool = avg_cap.sort_values(ascending=False)
+        return sort_pool.index[:self.n]
         
 
 

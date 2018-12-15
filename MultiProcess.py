@@ -59,8 +59,17 @@ class WeightProcess(MultiProcess):
         return delta
     
     def __sub__(self, other):
-        if len(self) != 1 or len(other) != 1:
+        if len(self) > 1:
+            w1 = self.df.iloc[-1:,:]
+        else:
+            w1 = self.df.squeeze()
+        if len(other) > 1:
+            w2 = other.df.iloc[-1:,:]
+        else:
+            w2 = self.df.squeeze()
+        
+        if len(self) == 0 or len(other) == 0:
             raise ValueError("length of self:",len(self),
-                "or length of other:", len(other), "!=1")
-        w1w2 = pd.concat([self.df.squeeze(),other.df.squeeze()],axis=1, sort=False).fillna(value=0)
+                "or length of other:", len(other), "== 0")
+        w1w2 = pd.concat([w1, w2],axis=1, sort=False).fillna(value=0)
         return np.abs((w1w2.iloc[:,1] - w1w2.iloc[:,0]).values).sum()
