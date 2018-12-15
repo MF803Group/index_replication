@@ -17,7 +17,7 @@ thresreb = ThresholdRebalance(n=10, select='TopCap', weight='OptWeight')
 
 # specify decision window length (defalut:360)
 # specify measure kind (defalut:ETQ)
-# specify threshold 
+# specify threshold (defalut:0.02)
 # specify transaction cost ratio (defalut:0.0)
 thresreb.setting(window=360, measure_kind='ETQ', threshold=0.02, trans_ratio=0.0002)
 
